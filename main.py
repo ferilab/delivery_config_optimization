@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # Step 1: Load and preprocess data
     spinner = Halo(text='Loading data', spinner='dots') # You can choose various spinner styles
     spinner.start()
-    df, feature_cols, target_col, encoder = load_and_prepare_data("data/amazon_delivery.csv")
+    df, feature_cols, target_col, encoder = load_and_prepare_data("/data/amazon_delivery.csv")
     spinner.succeed('Data loading done!')
 
     # Step 2: Train model

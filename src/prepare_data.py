@@ -3,8 +3,12 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder
 from geopy.distance import geodesic
+import sys
+import os
 import warnings
 warnings.filterwarnings("ignore")
+
+package_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # The Haversine distance between pick up and delivery points needs to be measured 
 def haversine_distance(row):
@@ -24,7 +28,7 @@ def extract_temporal_features(df):
     return df
 
 def load_and_prepare_data(filepath):
-    df = pd.read_csv(filepath)
+    df = pd.read_csv(package_root + filepath)
 
     # Drop missing or corrupted rows
     df = df.dropna(subset=['Agent_Age', 'Agent_Rating', 'Vehicle', 'Weather', 'Traffic',
@@ -36,8 +40,8 @@ def load_and_prepare_data(filepath):
     df['Distance_km'] = df.apply(haversine_distance, axis=1)
 
     # Select features and target
-    feature_cols = ['Vehicle', 'Agent_Age', 'Agent_Rating', 'Weather', 'Traffic', 'Area',
-                    'Category', 'DayOfWeek', 'Order_Hour', 'Pickup_Delay_Minutes', 'Distance_km']
+    # Note: The reqiired features are: ['Vehicle', 'Agent_Age', 'Agent_Rating', 'Weather', 'Traffic', 
+    #              'Area', 'Category', 'DayOfWeek', 'Order_Hour', 'Pickup_Delay_Minutes', 'Distance_km']
     target_col = 'Delivery_Time'
 
     # Encode categorical features and make a dataframe from them with corresponding appropriate column names
